@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "unpackguard"
+version = "1.0.0"
+description = "Zero-dependency, offline-first archive safety auditing and policy-driven extraction engine"
+readme = "README.en.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "gitstq" }]
+keywords = [
+    "archive", "zip", "tar", "security", "zip-slip", "path-traversal",
+    "zip-bomb", "secrets", "cli", "sarif", "supply-chain",
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Security",
+    "Topic :: System :: Archiving",
+    "Topic :: Utilities",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0"]
+
+[project.urls]
+Homepage = "https://github.com/gitstq/UnpackGuard"
+Repository = "https://github.com/gitstq/UnpackGuard"
+Issues = "https://github.com/gitstq/UnpackGuard/issues"
+
+[project.scripts]
+unpackguard = "unpackguard.cli:main"
+
+[tool.setuptools]
+packages = ["unpackguard"]
+
+[tool.setuptools.package-data]
+unpackguard = ["py.typed"]

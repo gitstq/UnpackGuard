@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Python ${{ matrix.python-version }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Verify zero third-party dependencies
+        run: |
+          python -c "import unpackguard, sys; sys.exit(0)"
+
+      - name: Byte-compile
+        run: python -m compileall -q unpackguard tests
+
+      - name: Run unit tests
+        run: python -m unittest discover -s tests -t . -v
+
+      - name: Smoke test on placeholders
+        run: python scripts/smoke.py
+
+      - name: Build distributions
+        run: |
+          python -m pip install --upgrade build
+          python -m build
+        if: matrix.python-version == '3.12' && matrix.os == 'ubuntu-latest'
